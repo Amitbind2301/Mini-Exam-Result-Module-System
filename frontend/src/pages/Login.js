@@ -14,7 +14,7 @@ export default function Login() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        `${process.env.REACT_APP_API_URL}/api/auth/login`,
         { email, password }
       );
 
@@ -23,6 +23,7 @@ export default function Login() {
       alert("Login Successful ✅");
 
     } catch (err) {
+      console.log(err);
       alert("Login Failed ❌");
     }
   };
@@ -62,9 +63,7 @@ export default function Login() {
             />
           </div>
 
-          <button
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-          >
+          <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
             Login
           </button>
 
