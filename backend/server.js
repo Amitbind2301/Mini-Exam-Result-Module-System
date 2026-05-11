@@ -2,29 +2,45 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const serverless = require("serverless-http");
+
 const connectDB = require("./config/db");
+
+const authRoutes = require("./routes/authRoutes");
+const studentRoutes = require("./routes/studentRoutes");
+const resultRoutes = require("./routes/resultRoutes");
 const subjectRoutes = require("./routes/subjectRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
+// ✅ DB connect (safe for serverless)
 connectDB();
 
-app.use(cors());
+// ✅ Middlewares
 app.use(express.json());
 
-// ROUTE
-app.use("/api/auth", require("./routes/authRoutes"));
-app.use("/api/students", require("./routes/studentRoutes"));
-app.use("/api/results", require("./routes/resultRoutes"));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "*",
+    credentials: true,
+  })
+);
+
+// ✅ Routes
+app.use("/api/auth", authRoutes);
+app.use("/api/students", studentRoutes);
+app.use("/api/results", resultRoutes);
 app.use("/api/subjects", subjectRoutes);
-app.use("/api/dashboard", require("./routes/dashboardRoutes"));
+app.use("/api/dashboard", dashboardRoutes);
 
+// ✅ Test route
 app.get("/", (req, res) => {
-  res.send("Exam Result API Running 🚀");
+  res.send("🚀 Exam Result API Running on Vercel");
 });
 
-const PORT = process.env.PORT || 5000;
+// ❌ REMOVE this (important)
+// app.listen(...)
 
-app.listen(PORT, () => {
-  console.log("Server Running on Port " + PORT);
-});
+// ✅ Export for Vercel
+module.exports = serverless(app);
