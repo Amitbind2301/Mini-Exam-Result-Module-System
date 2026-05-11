@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: "https://your-frontend.vercel.app",
+  origin: "https://mini-exam-result-module-system.vercel.app/",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
