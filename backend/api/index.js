@@ -4,18 +4,17 @@ const express = require("express");
 const cors = require("cors");
 const serverless = require("serverless-http");
 
-const connectDB = require("./config/db");
+const connectDB = require("../config/db");
 
-// ✅ FIXED PATHS (IMPORTANT)
-const authRoutes = require("./routes/authRoutes");
-const studentRoutes = require("./routes/studentRoutes");
-const resultRoutes = require("./routes/resultRoutes");
-const subjectRoutes = require("./routes/subjectRoutes");
-const dashboardRoutes = require("./routes/dashboardRoutes");
+const authRoutes = require("../routes/authRoutes");
+const studentRoutes = require("../routes/studentRoutes");
+const resultRoutes = require("../routes/resultRoutes");
+const subjectRoutes = require("../routes/subjectRoutes");
+const dashboardRoutes = require("../routes/dashboardRoutes");
 
 const app = express();
 
-// ✅ DB connection cache
+// ✅ DB connection cache (VERY IMPORTANT for Vercel)
 let isConnected = false;
 
 const connectDatabase = async () => {
@@ -24,16 +23,21 @@ const connectDatabase = async () => {
       await connectDB();
       isConnected = true;
       console.log("✅ MongoDB Connected");
-    } catch (err) {
-      console.error("❌ MongoDB Connection Failed:", err.message);
-      throw err;
+    } catch (error) {
+      console.error("❌ DB Connection Error:", error.message);
+      throw error;
     }
   }
 };
 
 // ✅ Middlewares
 app.use(express.json());
-app.use(cors({ origin: "*", credentials: true }));
+app.use(
+  cors({
+    origin: "*", // baad me frontend URL daal dena
+    credentials: true,
+  })
+);
 
 // ✅ Routes
 app.use("/api/auth", authRoutes);
@@ -42,23 +46,18 @@ app.use("/api/results", resultRoutes);
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
-// ✅ Health route
+// ✅ Health check
 app.get("/", (req, res) => {
-  res.status(200).send("🚀 API Running");
+  res.status(200).send("🚀 API Running on Vercel");
 });
 
-// ✅ 404 handler
-app.use((req, res) => {
-  res.status(404).json({ message: "Route not found" });
-});
-
-// ✅ Error handler
+// ✅ Global error handler (extra safety)
 app.use((err, req, res, next) => {
   console.error("❌ Error:", err.message);
   res.status(500).json({ message: "Internal Server Error" });
 });
 
-// ✅ EXPORT (Vercel)
+// ✅ Vercel serverless export
 module.exports = async (req, res) => {
   await connectDatabase();
   return serverless(app)(req, res);
