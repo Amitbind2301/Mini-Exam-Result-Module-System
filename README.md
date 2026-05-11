@@ -1,54 +1,39 @@
 📘 Mini Exam Result Module System
-A MERN Stack (MongoDB, Express.js, React.js, Node.js) based web application that allows an admin to manage students, subjects, marks entry, and generate exam results with proper authentication and validation.
+
+A MERN Stack (MongoDB, Express.js, React.js, Node.js) application for managing students, subjects, marks entry, and result generation with authentication and validation.
 
 Backend Setup:
 
-
 Navigate to the backend directory
+
 cd backend
 
+Install dependencies
 
-Install all required dependencies
 npm install
+Create a .env file in the backend root directory and add the required environment variables (see below).
 
+Run the backend server
 
-Create a .env file in the root of the backend folder and add the required environment variables (see below).
-Make sure MongoDB is properly configured and running.
-
-
-Start the backend development server
 npm run dev
-
-
-The backend will run on the port specified in the .env file.
-
 Frontend Setup:
 
-
 Navigate to the frontend directory
+
 cd frontend
 
+Install dependencies
 
-Install all required dependencies
 npm install
 
+Start the frontend application
 
-Start the frontend development server
 npm start
-
-
-The frontend application will run on http://localhost:3000 by default and will communicate with the backend APIs.
-
 Environment Variables:
-Create a .env file inside the backend directory and configure the following variables:
-MONGO_URI=your_mongodb_connection_stringJWT_SECRET=your_secure_jwt_secretPORT=5000
-Description:
 
+Create a .env file in the backend directory and configure the following:
 
-MONGO_URI: MongoDB connection string (local or Atlas)
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+PORT=5000
 
-
-JWT_SECRET: Secret key used for authentication (JWT)
-
-
-PORT: Port on which backend server will run
