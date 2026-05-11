@@ -46,4 +46,6 @@ npm start
 
 Environment Variables
 Create a .env file in the backend directory and configure the following:
-MONGO_URI=your_mongodb_connection_stringJWT_SECRET=your_secret_keyPORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+PORT=5000
