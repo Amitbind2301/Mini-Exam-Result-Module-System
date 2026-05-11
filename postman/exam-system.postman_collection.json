@@ -1,0 +1,176 @@
+{
+  "info": {
+    "_postman_id": "exam-result-system-001",
+    "name": "Exam Result System API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"123456\"\n}"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Students",
+      "item": [
+        {
+          "name": "Create Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "http://localhost:5000/api/students",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Amit Kumar\",\n  \"rollNumber\": \"101\",\n  \"class\": \"10th\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Students",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/students"
+          }
+        },
+        {
+          "name": "Get Student By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/students/:id"
+          }
+        },
+        {
+          "name": "Update Student",
+          "request": {
+            "method": "PUT",
+            "url": "http://localhost:5000/api/students/:id",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Student",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:5000/api/students/:id"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Subjects",
+      "item": [
+        {
+          "name": "Create Subject",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:5000/api/subjects",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subjectName\": \"Math\",\n  \"fullMarks\": 100,\n  \"passMarks\": 33\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Subjects",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/subjects"
+          }
+        },
+        {
+          "name": "Get Subject By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/subjects/:id"
+          }
+        },
+        {
+          "name": "Update Subject",
+          "request": {
+            "method": "PUT",
+            "url": "http://localhost:5000/api/subjects/:id"
+          }
+        },
+        {
+          "name": "Delete Subject",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:5000/api/subjects/:id"
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Results",
+      "item": [
+        {
+          "name": "Create Result",
+          "request": {
+            "method": "POST",
+            "url": "http://localhost:5000/api/results",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"student_id_here\",\n  \"examName\": \"Half Yearly\",\n  \"subjects\": [\n    {\n      \"subjectId\": \"subject_id_here\",\n      \"marksObtained\": 80\n    }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Get All Results",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/results"
+          }
+        },
+        {
+          "name": "Get Result By ID",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/results/:id"
+          }
+        },
+        {
+          "name": "Get Results By Student",
+          "request": {
+            "method": "GET",
+            "url": "http://localhost:5000/api/results/student/:studentId"
+          }
+        },
+        {
+          "name": "Delete Result",
+          "request": {
+            "method": "DELETE",
+            "url": "http://localhost:5000/api/results/:id"
+          }
+        }
+      ]
+    }
+  ]
+}
