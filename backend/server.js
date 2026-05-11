@@ -2,11 +2,10 @@ require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
-const serverless = require("serverless-http");
 
 const connectDB = require("./config/db");
 
-// ✅ FIXED PATHS (IMPORTANT)
+// ✅ ALL PATHS FIXED (IMPORTANT)
 const authRoutes = require("./routes/authRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const resultRoutes = require("./routes/resultRoutes");
@@ -15,25 +14,12 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
-// ✅ DB connection cache
-let isConnected = false;
-
-const connectDatabase = async () => {
-  if (!isConnected) {
-    try {
-      await connectDB();
-      isConnected = true;
-      console.log("✅ MongoDB Connected");
-    } catch (err) {
-      console.error("❌ MongoDB Connection Failed:", err.message);
-      throw err;
-    }
-  }
-};
+// ✅ Connect DB
+connectDB();
 
 // ✅ Middlewares
 app.use(express.json());
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors());
 
 // ✅ Routes
 app.use("/api/auth", authRoutes);
@@ -42,24 +28,14 @@ app.use("/api/results", resultRoutes);
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
-// ✅ Health route
+// ✅ Test route
 app.get("/", (req, res) => {
-  res.status(200).send("🚀 API Running");
+  res.send("🚀 API Running Locally");
 });
 
-// ✅ 404 handler
-app.use((req, res) => {
-  res.status(404).json({ message: "Route not found" });
-});
+// ✅ START SERVER (IMPORTANT)
+const PORT = process.env.PORT || 5000;
 
-// ✅ Error handler
-app.use((err, req, res, next) => {
-  console.error("❌ Error:", err.message);
-  res.status(500).json({ message: "Internal Server Error" });
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
-
-// ✅ EXPORT (Vercel)
-module.exports = async (req, res) => {
-  await connectDatabase();
-  return serverless(app)(req, res);
-};
