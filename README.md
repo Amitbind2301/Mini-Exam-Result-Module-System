@@ -4,6 +4,8 @@ A MERN Stack (MongoDB, Express.js, React.js, Node.js) application for managing s
 
 ---
 
+LIVE DEMO  https://mini-exam-result-module-system-fyt4.vercel.app/
+
 ## Backend Setup
 
 1. Navigate to the backend directory  
