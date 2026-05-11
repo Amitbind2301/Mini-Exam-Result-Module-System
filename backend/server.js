@@ -14,15 +14,23 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
-// ✅ DB connect (safe for serverless)
-connectDB();
+// ✅ DB connection cache (IMPORTANT)
+let isConnected = false;
+
+const connectDatabase = async () => {
+  if (!isConnected) {
+    await connectDB();
+    isConnected = true;
+    console.log("✅ MongoDB Connected");
+  }
+};
 
 // ✅ Middlewares
 app.use(express.json());
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "*",
+    origin: "*", // later frontend URL daal dena
     credentials: true,
   })
 );
@@ -34,13 +42,13 @@ app.use("/api/results", resultRoutes);
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
-// ✅ Test route
+// ✅ Health check
 app.get("/", (req, res) => {
   res.send("🚀 Exam Result API Running on Vercel");
 });
 
-// ❌ REMOVE this (important)
-// app.listen(...)
-
-// ✅ Export for Vercel
-module.exports = serverless(app);
+// ✅ Export for Vercel (NO app.listen)
+module.exports = async (req, res) => {
+  await connectDatabase();
+  return serverless(app)(req, res);
+};
